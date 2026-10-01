@@ -7,7 +7,6 @@ from datetime import datetime
 from pathlib import Path
 
 
-# Определяем операционную систему.
 if sys.platform == "win32":
     os_name = "Windows"
 elif sys.platform == "linux":
@@ -18,7 +17,6 @@ else:
     print(f"Эта операционная система не поддерживается: {sys.platform}")
     sys.exit(1)
 
-# Получаем версию и архитектуру без запуска команд ОС.
 if os_name == "Windows":
     major, minor, build = sys.getwindowsversion().platform_version
     os_version = f"{major}.{minor}.{build}"
@@ -32,7 +30,6 @@ else:
     os_version = system_info.release
     architecture = system_info.machine or None
 
-# Проверяем раздел, на котором находится скрипт.
 script_folder = Path(__file__).resolve().parent
 try:
     disk_info = shutil.disk_usage(script_folder)
@@ -40,7 +37,6 @@ except OSError as error:
     print(f"Не удалось получить сведения о диске: {error}")
     sys.exit(1)
 
-# Собираем данные в словарь. Размеры храним в байтах.
 data = {
     "collected_at": datetime.now().astimezone().isoformat(timespec="seconds"),
     "os": {
@@ -63,7 +59,6 @@ data = {
     },
 }
 
-# Сохраняем JSON рядом со скриптом.
 output_file = script_folder / "os_info.json"
 try:
     with open(output_file, "w", encoding="utf-8") as file:
